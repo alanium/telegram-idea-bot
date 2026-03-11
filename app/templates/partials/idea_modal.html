@@ -1,0 +1,68 @@
+<div class="modal-layer" role="dialog" aria-modal="true" aria-label="Editar idea">
+  <button type="button" class="modal-backdrop" data-close-modal aria-label="Cerrar"></button>
+
+  <section class="modal-card">
+    <header class="modal-head">
+      <h3>Idea #{{ idea.id }}</h3>
+    </header>
+
+    <form
+      class="modal-form"
+      hx-post="/ideas/{{ idea.id }}/edit-modal"
+      hx-target="#board"
+      hx-swap="outerHTML"
+      hx-on::after-request="if(event.detail.successful){document.getElementById('modal-root').innerHTML=''; document.body.classList.remove('modal-open');}"
+    >
+      <label>
+        Titulo
+        <input type="text" name="title" value="{{ idea.title }}" required maxlength="180" />
+      </label>
+
+      <label>
+        Descripcion
+        <textarea name="description" rows="4">{{ idea.description or "" }}</textarea>
+      </label>
+
+      <div class="modal-grid">
+        <label>
+          Prioridad
+          <select name="priority">
+            <option value="low" {% if idea.priority == "low" %}selected{% endif %}>Low</option>
+            <option value="med" {% if idea.priority == "med" %}selected{% endif %}>Med</option>
+            <option value="high" {% if idea.priority == "high" %}selected{% endif %}>High</option>
+          </select>
+        </label>
+
+        <label>
+          Estado
+          <select name="status">
+            <option value="inbox" {% if idea.status == "inbox" %}selected{% endif %}>Inbox</option>
+            <option value="todo" {% if idea.status == "todo" %}selected{% endif %}>Todo</option>
+            <option value="doing" {% if idea.status == "doing" %}selected{% endif %}>Doing</option>
+            <option value="done" {% if idea.status == "done" %}selected{% endif %}>Done</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <div class="actions-left">
+          <button
+            type="button"
+            class="danger-btn"
+            hx-post="/ideas/{{ idea.id }}/delete"
+            hx-target="#board"
+            hx-swap="outerHTML"
+            hx-confirm="Seguro que quieres eliminar esta idea?"
+            hx-on::after-request="if(event.detail.successful){document.getElementById('modal-root').innerHTML=''; document.body.classList.remove('modal-open');}"
+          >
+            Eliminar
+          </button>
+        </div>
+        <div class="actions-right">
+          <button type="button" class="ghost-btn" data-close-modal>Cancelar</button>
+          <button type="submit">Guardar cambios</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>

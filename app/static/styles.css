@@ -202,6 +202,18 @@ button:hover {
   font-weight: 700;
 }
 
+.card .title-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: #f0f4ff;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
 .card .title:hover {
   color: #9cc0ff;
 }
@@ -297,6 +309,123 @@ button:hover {
   color: #cfdbff;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
+#modal-root:empty {
+  display: none;
+}
+
+.modal-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(3, 7, 13, 0.62);
+  backdrop-filter: blur(7px);
+}
+
+.modal-card {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid #334663;
+  background: #121a29;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.42);
+  animation: rise 0.18s ease;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #202b40;
+  border-color: #3b4f73;
+}
+
+.modal-form {
+  padding: 0.95rem 1rem 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.modal-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #c8d4ee;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  padding-top: 0.2rem;
+}
+
+.actions-left {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.actions-right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ghost-link {
+  color: #9ab5e8;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.ghost-btn {
+  background: #1f2b40;
+  border-color: #3c4f70;
+}
+
+.danger-btn {
+  background: #7d2f45;
+  border-color: #a54a63;
+}
+
+.danger-btn:hover {
+  filter: brightness(1.08);
+}
+
 @keyframes rise {
   from {
     transform: translateY(8px);
@@ -330,5 +459,22 @@ button:hover {
 
   .column.is-active {
     display: block;
+  }
+
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions-left {
+    justify-content: space-between;
+  }
+
+  .actions-right {
+    justify-content: flex-end;
   }
 }

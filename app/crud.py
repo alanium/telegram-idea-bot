@@ -66,3 +66,8 @@ def set_idea_status(db: Session, idea: Idea, status: str) -> Idea:
     db.commit()
     db.refresh(idea)
     return idea
+
+
+def delete_idea(db: Session, idea: Idea) -> None:
+    db.delete(idea)
+    db.commit()

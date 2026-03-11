@@ -1,5 +1,14 @@
 <div class="card" draggable="true" data-card-status="{{ idea.status }}">
-  <a class="title" href="/ideas/{{ idea.id }}">#{{ idea.id }} {{ idea.title }}</a>
+  <button
+    type="button"
+    class="title title-btn"
+    hx-get="/ideas/{{ idea.id }}/modal"
+    hx-target="#modal-root"
+    hx-swap="innerHTML"
+    hx-push-url="false"
+  >
+    #{{ idea.id }} {{ idea.title }}
+  </button>
   {% if idea.description %}
   <p>{{ idea.description }}</p>
   {% endif %}

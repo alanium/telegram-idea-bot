@@ -81,6 +81,14 @@ def idea_detail(idea_id: int, request: Request, db: Session = Depends(get_db)) -
     return templates.TemplateResponse("idea_detail.html", {"request": request, "idea": idea})
 
 
+@app.get("/ideas/{idea_id}/modal", response_class=HTMLResponse)
+def idea_modal(idea_id: int, request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    idea = crud.get_idea(db, idea_id)
+    if not idea:
+        raise HTTPException(status_code=404, detail="Idea not found")
+    return templates.TemplateResponse("partials/idea_modal.html", {"request": request, "idea": idea})
+
+
 @app.post("/ideas", response_class=HTMLResponse)
 def create_idea_web(
     request: Request,
@@ -141,6 +149,43 @@ def edit_idea_web(
         ),
     )
     return RedirectResponse(url=f"/ideas/{idea_id}", status_code=303)
+
+
+@app.post("/ideas/{idea_id}/edit-modal", response_class=HTMLResponse)
+def edit_idea_modal(
+    request: Request,
+    idea_id: int,
+    title: str = Form(...),
+    description: str = Form(default=""),
+    priority: str = Form(default="med"),
+    status: str = Form(default="inbox"),
+    db: Session = Depends(get_db),
+) -> HTMLResponse:
+    idea = crud.get_idea(db, idea_id)
+    if not idea:
+        raise HTTPException(status_code=404, detail="Idea not found")
+    crud.update_idea(
+        db,
+        idea,
+        IdeaUpdate(
+            title=title,
+            description=description or None,
+            priority=priority,
+            status=status,
+        ),
+    )
+    grouped = crud.list_ideas_by_status(db)
+    return templates.TemplateResponse("partials/board.html", {"request": request, "grouped": grouped})
+
+
+@app.post("/ideas/{idea_id}/delete", response_class=HTMLResponse)
+def delete_idea_web(request: Request, idea_id: int, db: Session = Depends(get_db)) -> HTMLResponse:
+    idea = crud.get_idea(db, idea_id)
+    if not idea:
+        raise HTTPException(status_code=404, detail="Idea not found")
+    crud.delete_idea(db, idea)
+    grouped = crud.list_ideas_by_status(db)
+    return templates.TemplateResponse("partials/board.html", {"request": request, "grouped": grouped})
 
 
 @app.post("/telegram/webhook/{secret}")

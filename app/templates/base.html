@@ -151,8 +151,45 @@
           initDesktopDrag(board);
         }
 
+        function closeModal() {
+          var modalRoot = document.getElementById("modal-root");
+          if (!modalRoot) {
+            return;
+          }
+          modalRoot.innerHTML = "";
+          document.body.classList.remove("modal-open");
+        }
+
+        function initModalUX() {
+          document.addEventListener("click", function (event) {
+            var close = event.target.closest("[data-close-modal]");
+            if (!close) {
+              return;
+            }
+            closeModal();
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              closeModal();
+            }
+          });
+
+          document.body.addEventListener("htmx:afterSwap", function (event) {
+            var target = (event.detail && event.detail.target) || event.target;
+            if (target && target.id === "modal-root") {
+              if (target.innerHTML.trim()) {
+                document.body.classList.add("modal-open");
+              } else {
+                document.body.classList.remove("modal-open");
+              }
+            }
+          });
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
           initBoardUX(document);
+          initModalUX();
         });
 
         document.body.addEventListener("htmx:afterSwap", function () {
