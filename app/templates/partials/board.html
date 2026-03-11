@@ -1,0 +1,14 @@
+<section id="board" class="board">
+  {% for status in ["inbox", "todo", "doing", "done"] %}
+  <article class="column">
+    <h2>{{ status|upper }}</h2>
+    <div class="cards">
+      {% for idea in grouped[status] %}
+      {% include "partials/card.html" %}
+      {% else %}
+      <p class="empty">Sin cards</p>
+      {% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+</section>

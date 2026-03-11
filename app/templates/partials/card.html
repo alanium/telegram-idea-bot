@@ -1,0 +1,24 @@
+<div class="card">
+  <a class="title" href="/ideas/{{ idea.id }}">#{{ idea.id }} {{ idea.title }}</a>
+  {% if idea.description %}
+  <p>{{ idea.description }}</p>
+  {% endif %}
+  <div class="meta">
+    <span class="priority priority-{{ idea.priority }}">{{ idea.priority }}</span>
+    <span>{{ idea.source }}</span>
+  </div>
+  <form
+    hx-post="/ideas/{{ idea.id }}/status"
+    hx-target="#board"
+    hx-swap="outerHTML"
+    class="move-form"
+  >
+    <select name="status">
+      <option value="inbox" {% if idea.status == "inbox" %}selected{% endif %}>Inbox</option>
+      <option value="todo" {% if idea.status == "todo" %}selected{% endif %}>Todo</option>
+      <option value="doing" {% if idea.status == "doing" %}selected{% endif %}>Doing</option>
+      <option value="done" {% if idea.status == "done" %}selected{% endif %}>Done</option>
+    </select>
+    <button type="submit">Mover</button>
+  </form>
+</div>

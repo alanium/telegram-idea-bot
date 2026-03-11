@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Idea #{{ idea.id }}{% endblock %}
+
+{% block content %}
+<section class="detail">
+  <a href="/" class="back">Volver al board</a>
+  <h2>Idea #{{ idea.id }}</h2>
+  <form action="/ideas/{{ idea.id }}/edit" method="post" class="detail-form">
+    <label>
+      Titulo
+      <input type="text" name="title" value="{{ idea.title }}" required maxlength="180" />
+    </label>
+    <label>
+      Descripcion
+      <textarea name="description" rows="5">{{ idea.description or "" }}</textarea>
+    </label>
+    <label>
+      Prioridad
+      <select name="priority">
+        <option value="low" {% if idea.priority == "low" %}selected{% endif %}>Low</option>
+        <option value="med" {% if idea.priority == "med" %}selected{% endif %}>Med</option>
+        <option value="high" {% if idea.priority == "high" %}selected{% endif %}>High</option>
+      </select>
+    </label>
+    <label>
+      Estado
+      <select name="status">
+        <option value="inbox" {% if idea.status == "inbox" %}selected{% endif %}>Inbox</option>
+        <option value="todo" {% if idea.status == "todo" %}selected{% endif %}>Todo</option>
+        <option value="doing" {% if idea.status == "doing" %}selected{% endif %}>Doing</option>
+        <option value="done" {% if idea.status == "done" %}selected{% endif %}>Done</option>
+      </select>
+    </label>
+    <button type="submit">Guardar cambios</button>
+  </form>
+</section>
+{% endblock %}
