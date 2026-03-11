@@ -1,15 +1,14 @@
 :root {
-  --bg: #070b17;
-  --bg-2: #0f1629;
-  --panel: #111a30;
-  --panel-2: #161f38;
-  --ink: #eaf1ff;
-  --muted: #93a1c7;
-  --line: #223159;
-  --accent: #4f7cff;
-  --accent-2: #1cc8a0;
-  --danger: #ff6f91;
-  --shadow: 0 18px 44px rgba(2, 7, 20, 0.5);
+  --bg: #0d1117;
+  --bg-2: #111827;
+  --panel: #161b22;
+  --panel-2: #1f2632;
+  --ink: #e6edf3;
+  --muted: #9ba8ba;
+  --line: #2d3748;
+  --accent: #4f8cff;
+  --accent-2: #2fbd9a;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
 }
 
 * {
@@ -20,18 +19,15 @@ body {
   margin: 0;
   font-family: "Manrope", sans-serif;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 8% 10%, rgba(79, 124, 255, 0.2), transparent 32%),
-    radial-gradient(circle at 90% 0%, rgba(28, 200, 160, 0.12), transparent 28%),
-    linear-gradient(170deg, var(--bg) 0%, var(--bg-2) 100%);
+  background: linear-gradient(180deg, var(--bg), var(--bg-2));
   min-height: 100vh;
 }
 
 .topbar {
   padding: 1.2rem 1.3rem;
-  border-bottom: 1px solid rgba(147, 161, 199, 0.18);
-  background: rgba(11, 18, 34, 0.74);
-  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(13, 17, 23, 0.88);
+  backdrop-filter: blur(8px);
 }
 
 .topbar h1 {
@@ -56,8 +52,8 @@ main {
 
 .create-panel {
   margin-bottom: 1rem;
-  background: linear-gradient(165deg, rgba(79, 124, 255, 0.13), rgba(28, 200, 160, 0.08));
-  border: 1px solid rgba(79, 124, 255, 0.25);
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 16px;
   padding: 0.8rem;
   box-shadow: var(--shadow);
@@ -94,8 +90,8 @@ select:focus {
 }
 
 button {
-  border: 1px solid rgba(79, 124, 255, 0.6);
-  background: linear-gradient(145deg, #4f7cff, #3f66d6);
+  border: 1px solid #4f8cff;
+  background: #3f73db;
   color: #fff;
   cursor: pointer;
   font-weight: 700;
@@ -120,16 +116,16 @@ button:hover {
   position: sticky;
   top: 0.45rem;
   z-index: 6;
-  background: rgba(8, 13, 25, 0.8);
+  background: rgba(13, 17, 23, 0.9);
   padding: 0.35rem;
   border: 1px solid var(--line);
   border-radius: 13px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .board-tab {
-  border: 1px solid #2b3e6f;
-  background: #111c36;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
   color: var(--muted);
   padding: 0.48rem 0.3rem;
   font-size: 0.74rem;
@@ -137,9 +133,9 @@ button:hover {
 }
 
 .board-tab.is-active {
-  background: linear-gradient(140deg, #1cc8a0, #179f84);
-  color: #031712;
-  border-color: transparent;
+  background: #2fbd9a;
+  color: #0b1b17;
+  border-color: #2fbd9a;
 }
 
 @media (min-width: 901px) {
@@ -149,7 +145,7 @@ button:hover {
 }
 
 .column {
-  background: rgba(12, 19, 36, 0.88);
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 0.75rem;
@@ -160,7 +156,7 @@ button:hover {
   margin: 0 0 0.6rem;
   font-size: 0.82rem;
   letter-spacing: 0.08em;
-  color: #a7b5da;
+  color: #b2bfd1;
   font-family: "JetBrains Mono", monospace;
 }
 
@@ -170,8 +166,8 @@ button:hover {
 }
 
 .card {
-  background: linear-gradient(170deg, #131f3a, #10192f);
-  border: 1px solid #2a3968;
+  background: #151d2a;
+  border: 1px solid #2b3648;
   border-radius: 13px;
   padding: 0.68rem;
   animation: rise 0.26s ease;
@@ -184,7 +180,7 @@ button:hover {
 }
 
 .card .title:hover {
-  color: #9cb6ff;
+  color: #9cc0ff;
 }
 
 .card p {
@@ -208,18 +204,18 @@ button:hover {
 }
 
 .priority-low {
-  color: #4ee0b6;
-  border-color: rgba(78, 224, 182, 0.45);
+  color: #63d7ba;
+  border-color: rgba(99, 215, 186, 0.4);
 }
 
 .priority-med {
-  color: #ffcd75;
-  border-color: rgba(255, 205, 117, 0.45);
+  color: #f2c977;
+  border-color: rgba(242, 201, 119, 0.42);
 }
 
 .priority-high {
-  color: #ff97ad;
-  border-color: rgba(255, 151, 173, 0.55);
+  color: #f39ab1;
+  border-color: rgba(243, 154, 177, 0.5);
 }
 
 .move-form {
@@ -232,8 +228,8 @@ button:hover {
 }
 
 .move-form button {
-  background: linear-gradient(145deg, #1aaf8f, #188f77);
-  border-color: rgba(28, 200, 160, 0.55);
+  background: #2a9f84;
+  border-color: #2fbf9b;
 }
 
 .empty {
@@ -249,7 +245,7 @@ button:hover {
   padding: 1rem;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(11, 18, 34, 0.88);
+  background: var(--panel);
   box-shadow: var(--shadow);
 }
 
@@ -259,7 +255,7 @@ button:hover {
 
 .back {
   text-decoration: none;
-  color: #8ad8c6;
+  color: #9fd9cb;
   font-weight: 700;
 }
 
