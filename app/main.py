@@ -18,6 +18,7 @@ load_dotenv()
 
 app = FastAPI(title="Telegram Ideas Bot")
 templates = Jinja2Templates(directory="app/templates")
+templates.env.auto_reload = True
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 poller_task: asyncio.Task[None] | None = None
 

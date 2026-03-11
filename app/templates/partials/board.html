@@ -1,6 +1,19 @@
 <section id="board" class="board">
+  <nav class="board-tabs" aria-label="Etapas del kanban">
+    {% for status in ["inbox", "todo", "doing", "done"] %}
+    <button
+      type="button"
+      class="board-tab {% if status == 'inbox' %}is-active{% endif %}"
+      data-board-tab="{{ status }}"
+      aria-selected="{% if status == 'inbox' %}true{% else %}false{% endif %}"
+    >
+      {{ status|upper }}
+    </button>
+    {% endfor %}
+  </nav>
+
   {% for status in ["inbox", "todo", "doing", "done"] %}
-  <article class="column">
+  <article class="column {% if status == 'inbox' %}is-active{% endif %}" data-board-column="{{ status }}">
     <h2>{{ status|upper }}</h2>
     <div class="cards">
       {% for idea in grouped[status] %}

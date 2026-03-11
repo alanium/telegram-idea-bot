@@ -19,5 +19,49 @@
       <p>Telegram + FastAPI + SQLite</p>
     </header>
     <main>{% block content %}{% endblock %}</main>
+    <script>
+      (function () {
+        function activateBoardTab(board, status) {
+          var tabs = board.querySelectorAll("[data-board-tab]");
+          var cols = board.querySelectorAll("[data-board-column]");
+
+          tabs.forEach(function (tab) {
+            var active = tab.getAttribute("data-board-tab") === status;
+            tab.classList.toggle("is-active", active);
+            tab.setAttribute("aria-selected", active ? "true" : "false");
+          });
+
+          cols.forEach(function (col) {
+            var active = col.getAttribute("data-board-column") === status;
+            col.classList.toggle("is-active", active);
+          });
+        }
+
+        function initBoardTabs(root) {
+          var scope = root || document;
+          var board = scope.querySelector("#board");
+          if (!board || board.dataset.tabsReady === "1") {
+            return;
+          }
+          board.dataset.tabsReady = "1";
+
+          board.addEventListener("click", function (event) {
+            var button = event.target.closest("[data-board-tab]");
+            if (!button) {
+              return;
+            }
+            activateBoardTab(board, button.getAttribute("data-board-tab") || "inbox");
+          });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          initBoardTabs(document);
+        });
+
+        document.body.addEventListener("htmx:afterSwap", function (event) {
+          initBoardTabs(event.target);
+        });
+      })();
+    </script>
   </body>
 </html>
