@@ -205,24 +205,28 @@ button:hover {
 
 .priority {
   border-radius: 999px;
-  padding: 0.12rem 0.45rem;
+  padding: 0.14rem 0.5rem;
   border: 1px solid transparent;
   font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
 }
 
 .priority-low {
   color: #63d7ba;
   border-color: rgba(99, 215, 186, 0.4);
+  background: rgba(99, 215, 186, 0.14);
 }
 
 .priority-med {
   color: #f2c977;
   border-color: rgba(242, 201, 119, 0.42);
+  background: rgba(242, 201, 119, 0.14);
 }
 
 .priority-high {
   color: #f39ab1;
   border-color: rgba(243, 154, 177, 0.5);
+  background: rgba(243, 154, 177, 0.16);
 }
 
 .move-form {
