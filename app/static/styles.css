@@ -180,6 +180,22 @@ button:hover {
   border-color: #4c628a;
 }
 
+@media (min-width: 901px) {
+  .card {
+    cursor: grab;
+  }
+
+  .card.is-dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+  }
+
+  .column.is-drop-target {
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.18);
+  }
+}
+
 .card .title {
   color: #f0f4ff;
   text-decoration: none;

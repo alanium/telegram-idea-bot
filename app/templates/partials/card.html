@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" draggable="true" data-card-status="{{ idea.status }}">
   <a class="title" href="/ideas/{{ idea.id }}">#{{ idea.id }} {{ idea.title }}</a>
   {% if idea.description %}
   <p>{{ idea.description }}</p>

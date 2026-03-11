@@ -13,7 +13,7 @@
   </nav>
 
   {% for status in ["inbox", "todo", "doing", "done"] %}
-  <article class="column {% if status == 'inbox' %}is-active{% endif %}" data-board-column="{{ status }}">
+  <article class="column {% if status == 'inbox' %}is-active{% endif %}" data-board-column="{{ status }}" data-dropzone="{{ status }}">
     <h2>{{ status|upper }}</h2>
     <div class="cards">
       {% for idea in grouped[status] %}

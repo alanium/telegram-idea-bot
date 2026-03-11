@@ -21,6 +21,18 @@
     <main>{% block content %}{% endblock %}</main>
     <script>
       (function () {
+        var dragState = { card: null };
+
+        function resolveBoard(scope) {
+          if (!scope) {
+            return document.querySelector("#board");
+          }
+          if (scope.id === "board") {
+            return scope;
+          }
+          return scope.querySelector ? scope.querySelector("#board") : document.querySelector("#board");
+        }
+
         function activateBoardTab(board, status) {
           var tabs = board.querySelectorAll("[data-board-tab]");
           var cols = board.querySelectorAll("[data-board-column]");
@@ -38,8 +50,7 @@
         }
 
         function initBoardTabs(root) {
-          var scope = root || document;
-          var board = scope.querySelector("#board");
+          var board = resolveBoard(root || document);
           if (!board || board.dataset.tabsReady === "1") {
             return;
           }
@@ -54,12 +65,102 @@
           });
         }
 
+        function initDesktopDrag(board) {
+          if (!board || board.dataset.dragReady === "1") {
+            return;
+          }
+          board.dataset.dragReady = "1";
+
+          board.addEventListener("dragstart", function (event) {
+            var card = event.target.closest(".card[draggable='true']");
+            if (!card || window.matchMedia("(max-width: 900px)").matches) {
+              return;
+            }
+            dragState.card = card;
+            card.classList.add("is-dragging");
+            if (event.dataTransfer) {
+              event.dataTransfer.effectAllowed = "move";
+              event.dataTransfer.setData("text/plain", "card");
+            }
+          });
+
+          board.addEventListener("dragend", function () {
+            if (dragState.card) {
+              dragState.card.classList.remove("is-dragging");
+            }
+            dragState.card = null;
+            board.querySelectorAll("[data-dropzone]").forEach(function (col) {
+              col.classList.remove("is-drop-target");
+            });
+          });
+
+          board.addEventListener("dragover", function (event) {
+            var column = event.target.closest("[data-dropzone]");
+            if (!column || !dragState.card || window.matchMedia("(max-width: 900px)").matches) {
+              return;
+            }
+            event.preventDefault();
+            column.classList.add("is-drop-target");
+            if (event.dataTransfer) {
+              event.dataTransfer.dropEffect = "move";
+            }
+          });
+
+          board.addEventListener("dragleave", function (event) {
+            var column = event.target.closest("[data-dropzone]");
+            if (!column) {
+              return;
+            }
+            var related = event.relatedTarget;
+            if (related && column.contains(related)) {
+              return;
+            }
+            column.classList.remove("is-drop-target");
+          });
+
+          board.addEventListener("drop", function (event) {
+            var column = event.target.closest("[data-dropzone]");
+            if (!column || !dragState.card || window.matchMedia("(max-width: 900px)").matches) {
+              return;
+            }
+            event.preventDefault();
+            column.classList.remove("is-drop-target");
+
+            var targetStatus = column.getAttribute("data-dropzone") || "inbox";
+            var currentStatus = dragState.card.getAttribute("data-card-status") || "inbox";
+            if (targetStatus === currentStatus) {
+              return;
+            }
+
+            var form = dragState.card.querySelector(".move-form");
+            var select = form ? form.querySelector("select[name='status']") : null;
+            if (!form || !select) {
+              return;
+            }
+            select.value = targetStatus;
+            form.requestSubmit();
+          });
+        }
+
+        function initBoardUX(root) {
+          var board = resolveBoard(root || document);
+          if (!board) {
+            return;
+          }
+          initBoardTabs(board);
+          initDesktopDrag(board);
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
-          initBoardTabs(document);
+          initBoardUX(document);
         });
 
-        document.body.addEventListener("htmx:afterSwap", function (event) {
-          initBoardTabs(event.target);
+        document.body.addEventListener("htmx:afterSwap", function () {
+          initBoardUX(document);
+        });
+
+        document.body.addEventListener("htmx:afterSettle", function () {
+          initBoardUX(document);
         });
       })();
     </script>
